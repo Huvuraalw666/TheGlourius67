@@ -12,16 +12,16 @@ int main(int argc, char **argv) {
     // 1. The video of the stupid thing starts
     VIDEO_Init();
     
-    // 2. Configure preferred video mode
+    // 2. Configure You SON Stickers
     rmode = VIDEO_GetPreferredMode(NULL);
     
-    // 3. Reserve memory for the Framebuffer
+    // 3. Reserve The Aura
     xfb = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
     
-    // 4. Configure the console to use that framebuffer
+    // 4. Configure the Tung Tung Tung Sahur
     console_init(xfb, 0, 0, rmode->fbWidth, rmode->xfbHeight, rmode->fbWidth * VI_DISPLAY_PIX_SZ);
     
-    // 5. Apply video settings
+    // 5. Apply The Sigma's tips
     VIDEO_Configure(rmode);
     VIDEO_SetNextFramebuffer(xfb);
     VIDEO_SetBlack(FALSE);
@@ -29,35 +29,46 @@ int main(int argc, char **argv) {
     VIDEO_WaitVSync();
     if(rmode->viTVMode & VI_NON_INTERLACE) VIDEO_WaitVSync();
 
-    // 6. Clear the screen (set it to a fucking black initial color so the text stands out)
+    // 6. Clear Brainrot
     printf("\x1b[2J");
 
-    // 7. Initialize the Wiimote
+    // 7. Initialize THE DIH
     WPAD_Init();
 
     // Seed for chance
     srand(time(NULL)); 
 
-    while(1) {
+    // Nuevas variables de control
+    int speed_divider = 5; 
+    int frame_counter = 0;
+
+while(1) {
         WPAD_ScanPads();
         u32 pressed = WPAD_ButtonsDown(0);
 
-        // bye bye
+        // Home button to release the AURA
         if (pressed & WPAD_BUTTON_HOME) exit(0);
 
-        // --- THE GLOURIUS 67 ---
-        // Generate coordinates (Y between 1-24, X between 1-75)
-        int x = (rand() % 75) + 1; 
-        int y = (rand() % 24) + 1;
+        // Meme Reset
+        if (pressed & WPAD_BUTTON_1) {
+            printf("\x1b[2J");
+        }
+
+        // Tralalero TralaRUN
+        if (pressed & WPAD_BUTTON_2) {
+            speed_divider = (speed_divider == 5) ? 20 : 5;
+        }
+
+        //  C++ / C sucks my penis
+        if (frame_counter % speed_divider == 0) {
+            int x = (rand() % 80) + 1; 
+            int y = (rand() % 25) + 1;
+            int color = 31 + (rand() % 7); 
+
+            printf("\x1b[%d;%dH\x1b[%dm67\x1b[0m", y, x, color);
+        }
         
-        // ANSI Color (31 to 37)
-        int color = 31 + (rand() % 7); 
-
-        // Position cursor and print 67
-        // The sequence \x1b[H moves the cursor to the indicated position
-        printf("\x1b[%d;%dH\x1b[%dm67\x1b[0m", y, x, color);
-
-        // Force it to be drawn on the screen
+        frame_counter++;
         VIDEO_WaitVSync();
     }
 
