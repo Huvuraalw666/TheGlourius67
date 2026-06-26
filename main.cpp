@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
     xfb = MEM_K0_TO_K1(SYS_AllocateFramebuffer(rmode));
     
     // 4. Configure the console to use that framebuffer
-    console_init(xfb, 20, 20, rmode->fbWidth, rmode->xfbHeight, rmode->fbWidth * VI_DISPLAY_PIX_SZ);
+    console_init(xfb, 0, 0, rmode->fbWidth, rmode->xfbHeight, rmode->fbWidth * VI_DISPLAY_PIX_SZ);
     
     // 5. Apply video settings
     VIDEO_Configure(rmode);
